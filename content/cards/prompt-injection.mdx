@@ -1,0 +1,29 @@
+---
+title: Prompt Injection
+summary: 攻击者通过精心构造的输入，诱导模型忽略原本规则并执行偏离预期的指令。
+category: Threat Basics
+tags:
+  - llm-security
+  - prompt-injection
+  - agent-risk
+status: published
+relatedCardSlugs:
+  - rag-risk
+  - tool-abuse
+  - guardrails
+order: 1
+---
+
+## 这是什么
+
+Prompt Injection 是 LLM 应用里最常见的一类风险。攻击者不一定要“攻破系统”，只需要让模型**在当前上下文里相信一段恶意指令更优先**，就可能触发越权行为。
+
+## 为什么重要
+
+一旦模型可以调用工具、访问外部数据或执行代理动作，Prompt Injection 的影响就不再只是“答错问题”，而是可能演变成真实业务风险。
+
+## 看这张卡时先记住三件事
+
+1. 它首先是 **上下文控制问题**。
+2. 它经常和 **工具调用**、**RAG**、**系统提示泄露** 相互耦合。
+3. 防御重点通常不是“彻底杜绝”，而是 **减少可利用面 + 做好隔离与审计**。

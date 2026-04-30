@@ -1,0 +1,29 @@
+---
+title: Tool Abuse
+summary: 当模型获得调用外部工具的能力后，恶意提示可能借道工具链，把语言层风险放大成真实操作风险。
+category: Threat Basics
+tags:
+  - agent-risk
+  - tool-use
+  - llm-security
+status: published
+relatedCardSlugs:
+  - prompt-injection
+  - permission-design
+  - guardrails
+order: 2
+---
+
+## 这是什么
+
+Tool Abuse 指的是模型在被授予外部能力后，被诱导去执行不该执行的动作，例如读取敏感数据、触发危险 API，或代表用户完成不合适的操作。
+
+## 为什么它和 Prompt Injection 常一起出现
+
+因为很多攻击不是直接“让模型说错”，而是让模型**做错**。一旦系统有工具调用链，语言层输入就可能变成动作层输出。
+
+## 初版产品要记住的设计含义
+
+- 工具能力不要默认放大
+- 权限边界要尽量显式
+- 高风险动作应该有额外确认或隔离

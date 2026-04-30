@@ -1,0 +1,33 @@
+---
+title: Guardrails
+summary: Guardrails 不是单一拦截器，而是一组在输入、决策、输出和工具调用前后共同工作的防护机制。
+category: Defense Patterns
+tags:
+  - defense
+  - guardrails
+  - agent-risk
+status: published
+relatedCardSlugs:
+  - permission-design
+  - prompt-injection
+  - tool-abuse
+order: 3
+---
+
+## 这是什么
+
+Guardrails 可以理解为围绕 LLM 应用布置的一圈“护栏系统”。它的目标不是让模型绝对安全，而是让系统在面对不可信输入时更稳。
+
+## 它通常出现在哪些位置
+
+- 输入前过滤
+- 提示组装前约束
+- 模型输出后检查
+- 工具调用前授权
+- 高风险结果后的审计与回溯
+
+## 为什么首版知识站也要强调它
+
+因为它能帮助用户理解一个常见误区：
+
+> 安全不是靠一条万能 prompt 完成的，而是靠多层约束共同达成。

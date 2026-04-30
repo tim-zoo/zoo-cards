@@ -1,0 +1,32 @@
+---
+title: RAG Risk
+summary: 当检索层把不可信内容带进模型上下文时，RAG 可能把外部噪声放大成安全与决策风险。
+category: Threat Basics
+tags:
+  - rag
+  - llm-security
+  - prompt-injection
+status: published
+relatedCardSlugs:
+  - prompt-injection
+  - guardrails
+order: 4
+---
+
+## 这是什么
+
+RAG 风险不是“检索不好用”那么简单，而是**外部内容一旦混进模型上下文，就可能影响模型的判断、输出和工具调用**。
+
+## 为什么它经常被低估
+
+因为很多系统默认把“搜到的内容”当成更可信的信息源，但实际情况是：
+
+- 检索到的片段可能过时
+- 内容来源本身可能不可信
+- 被拼进提示词后，模型未必能分清“用户输入”和“外部材料”
+
+## 实现层面的提醒
+
+- 不要把检索结果当成天然可信输入
+- 要让来源、信任等级和引用边界尽量显式
+- 对高风险外部内容，应该配合 Guardrails 和权限隔离使用

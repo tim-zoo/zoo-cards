@@ -1,0 +1,36 @@
+{
+  "slug": "prompt-safety-basics",
+  "title": "从 Prompt Injection 到 Guardrails",
+  "summary": "一条适合首刷的 4 步路径，先理解风险是怎么进来的，再理解它如何借检索和工具链放大，最后再回到防护层。",
+  "audience": "第一次系统接触 AI 安全应用风险的人",
+  "theme": "AI 安全入门",
+  "difficulty": "easy",
+  "durationMinutes": 12,
+  "outcomes": [
+    "理解 Prompt Injection 为什么是上下文控制问题",
+    "理解 RAG 和工具链为什么会放大输入层风险",
+    "知道 Guardrails 不只是单点拦截器，而是多层护栏"
+  ],
+  "steps": [
+    {
+      "cardSlug": "prompt-injection",
+      "whyThisStep": "先建立核心风险感知，理解攻击者是如何通过输入劫持模型行为的。",
+      "nextHint": "接下来去看，外部内容一旦进入上下文，为什么会让问题更难处理。"
+    },
+    {
+      "cardSlug": "rag-risk",
+      "whyThisStep": "把风险视角从纯用户输入扩展到检索内容，理解不可信材料如何借 RAG 混入系统上下文。",
+      "nextHint": "再往下看，当模型获得调用工具能力后，风险会继续升级。"
+    },
+    {
+      "cardSlug": "tool-abuse",
+      "whyThisStep": "把语言层风险和真实动作层风险连起来，看模型为什么会从“答错”变成“做错”。",
+      "nextHint": "最后回到防御侧，看看 Guardrails 应该落在哪些关键位置。"
+    },
+    {
+      "cardSlug": "guardrails",
+      "whyThisStep": "理解防护不能只靠一句系统提示，而是需要多层护栏协同工作。",
+      "nextHint": "之后就可以继续扩展到权限设计、审计策略和更细的系统边界。"
+    }
+  ]
+}

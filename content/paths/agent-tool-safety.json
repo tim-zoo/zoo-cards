@@ -1,0 +1,36 @@
+{
+  "slug": "agent-tool-safety",
+  "title": "从工具滥用到权限边界",
+  "summary": "这条路径聚焦 Agent 场景里的工具风险，帮助你快速建立“能力开放越多，权限设计越要收紧”的直觉。",
+  "audience": "正在设计带工具调用能力的 LLM / Agent 系统的人",
+  "theme": "Agent 安全",
+  "difficulty": "medium",
+  "durationMinutes": 14,
+  "outcomes": [
+    "理解 Tool Abuse 为什么会把语言层风险升级成动作层风险",
+    "知道权限设计应该如何限制错误放大",
+    "理解 Guardrails 与权限边界如何协同工作"
+  ],
+  "steps": [
+    {
+      "cardSlug": "tool-abuse",
+      "whyThisStep": "先看最直接的问题来源，理解为什么工具调用会让系统风险突然变得真实。",
+      "nextHint": "接下来别急着谈护栏，先看权限边界为什么必须先收住。"
+    },
+    {
+      "cardSlug": "permission-design",
+      "whyThisStep": "当模型获得能力后，真正决定“摔多重”的往往不是提示词，而是权限边界本身。",
+      "nextHint": "然后再看 Guardrails 如何和权限设计配合，而不是替代它。"
+    },
+    {
+      "cardSlug": "guardrails",
+      "whyThisStep": "多层护栏可以减少误用和越权，但前提是能力边界已经被显式收紧。",
+      "nextHint": "最后回到输入层，看看 Prompt Injection 为什么仍然是前面的根源之一。"
+    },
+    {
+      "cardSlug": "prompt-injection",
+      "whyThisStep": "把整条路径闭环，理解输入层操控如何一路传导到工具层和权限层。",
+      "nextHint": "下一步可以继续扩到 RAG 风险、审计策略和审批流设计。"
+    }
+  ]
+}

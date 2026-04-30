@@ -1,0 +1,35 @@
+---
+title: Permission Design
+summary: 工具权限设计决定了模型一旦出错时会摔多重，越窄的权限边界，越能把风险控制在可收拾范围内。
+category: Defense Patterns
+tags:
+  - permissions
+  - agent-risk
+  - defense
+status: published
+relatedCardSlugs:
+  - tool-abuse
+  - guardrails
+order: 5
+---
+
+## 这是什么
+
+Permission Design 关注的不是“模型能不能做事”，而是**模型能做到什么程度、在什么条件下做、做错以后伤害能不能被限制住**。
+
+## 为什么它重要
+
+很多 LLM 系统的问题不是模型有没有能力，而是给能力时边界太宽。
+
+一旦权限设计粗放：
+
+- Tool Abuse 的后果会被放大
+- 审计和回滚会变难
+- 系统会更依赖单点 prompt 约束
+
+## 设计上的基本原则
+
+- 默认最小权限
+- 高风险动作加确认或隔离
+- 将读、写、执行等能力显式拆开
+- 让权限边界比“模型当前表现”更稳定

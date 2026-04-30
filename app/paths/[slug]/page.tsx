@@ -3,18 +3,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { getPathBySlug, getPathSlugs } from "@/lib/content";
-import type { PathDifficulty } from "@/lib/types";
+import { formatCategoryLabel, formatDifficultyLabel } from "@/lib/display";
 
 type RouteProps = {
   params: Promise<{ slug: string }>;
 };
-
-function getDifficultyLabel(difficulty?: PathDifficulty) {
-  if (difficulty === "easy") return "轻松入门";
-  if (difficulty === "medium") return "进阶阅读";
-  if (difficulty === "deep") return "深入理解";
-  return "自由探索";
-}
 
 export function generateStaticParams() {
   return getPathSlugs().map((slug) => ({ slug }));
@@ -46,7 +39,7 @@ export default async function PathDetailPage({ params }: RouteProps) {
             <p className="eyebrow">learning trail</p>
             <div className="flex flex-wrap items-center gap-3">
               <span className="chip">{pathItem.theme}</span>
-              <span className="meta-pill">{getDifficultyLabel(pathItem.difficulty)}</span>
+              <span className="meta-pill">{formatDifficultyLabel(pathItem.difficulty)}</span>
               {pathItem.durationMinutes ? <span className="meta-pill">约 {pathItem.durationMinutes} 分钟</span> : null}
             </div>
             <h1 className="text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">{pathItem.title}</h1>
@@ -91,7 +84,7 @@ export default async function PathDetailPage({ params }: RouteProps) {
                   <p className="text-sm leading-6 text-slate-600">{step.card.summary}</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="chip">{step.card.category}</span>
+                  <span className="chip">{formatCategoryLabel(step.card.category)}</span>
                   {step.card.tags.slice(0, 3).map((tag) => (
                     <span key={tag} className="tag-chip">
                       #{tag}
@@ -120,7 +113,7 @@ export default async function PathDetailPage({ params }: RouteProps) {
               </div>
               <div className="rounded-2xl bg-emerald-50 p-4">
                 <p className="text-sm text-emerald-900">难度</p>
-                <p className="mt-2 text-lg font-semibold text-emerald-950">{getDifficultyLabel(pathItem.difficulty)}</p>
+                <p className="mt-2 text-lg font-semibold text-emerald-950">{formatDifficultyLabel(pathItem.difficulty)}</p>
               </div>
               <div className="rounded-2xl bg-sky-50 p-4">
                 <p className="text-sm text-sky-900">时长</p>

@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { MdxContent } from "@/components/mdx-content";
 import { getAllCards, getCardBySlug, getCardSlugs, getRelatedCards } from "@/lib/content";
+import { formatCategoryLabel } from "@/lib/display";
 
 type RouteProps = {
   params: Promise<{ slug: string }>;
@@ -38,7 +39,7 @@ export default async function CardDetailPage({ params }: RouteProps) {
     <div className="grid gap-8 lg:grid-cols-[1.6fr_0.8fr]">
       <article className="surface p-6 sm:p-8">
         <div className="flex flex-wrap gap-3">
-          <span className="chip">{card.category}</span>
+          <span className="chip">{formatCategoryLabel(card.category)}</span>
           {card.tags.map((tag) => (
             <span key={tag} className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-800">
               #{tag}

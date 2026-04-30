@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CardTile } from "@/components/card-tile";
 import { PathTile } from "@/components/path-tile";
 import { getAllCards, getAllPaths, getCategories, getTags } from "@/lib/content";
+import { formatCategoryLabel } from "@/lib/display";
 
 export default function HomePage() {
   const cards = getAllCards();
@@ -157,7 +158,7 @@ export default function HomePage() {
               <div className="mt-3 flex flex-wrap gap-3">
                 {categories.map((category) => (
                   <span key={category} className="chip">
-                    {category}
+                    {formatCategoryLabel(category)}
                   </span>
                 ))}
               </div>

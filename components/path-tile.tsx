@@ -1,15 +1,9 @@
 import Link from "next/link";
 
-import type { LearningPath, PathDifficulty, ResolvedLearningPath } from "@/lib/types";
+import { formatDifficultyLabel } from "@/lib/display";
+import type { LearningPath, ResolvedLearningPath } from "@/lib/types";
 
 type PathLike = LearningPath | ResolvedLearningPath;
-
-function getDifficultyLabel(difficulty?: PathDifficulty) {
-  if (difficulty === "easy") return "轻松入门";
-  if (difficulty === "medium") return "进阶阅读";
-  if (difficulty === "deep") return "深入理解";
-  return "自由探索";
-}
 
 export function PathTile({ pathItem }: { pathItem: PathLike }) {
   return (
@@ -18,7 +12,7 @@ export function PathTile({ pathItem }: { pathItem: PathLike }) {
         <span className="chip">{pathItem.theme}</span>
         <div className="flex flex-wrap gap-2">
           <span className="meta-pill">{pathItem.steps.length} steps</span>
-          <span className="meta-pill">{getDifficultyLabel(pathItem.difficulty)}</span>
+          <span className="meta-pill">{formatDifficultyLabel(pathItem.difficulty)}</span>
           {pathItem.durationMinutes ? <span className="meta-pill">约 {pathItem.durationMinutes} 分钟</span> : null}
         </div>
       </div>

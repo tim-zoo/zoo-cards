@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 
 import { CardTile } from "@/components/card-tile";
+import { formatCategoryLabel } from "@/lib/display";
 import type { Card } from "@/lib/types";
 
 type CardsExplorerProps = {
@@ -119,7 +120,7 @@ export function CardsExplorer({ cards }: CardsExplorerProps) {
                     onClick={() => setActiveCategory(category.name)}
                     className={`filter-pill ${activeCategory === category.name ? "filter-pill-active" : ""}`}
                   >
-                    {category.name}
+                    {formatCategoryLabel(category.name)}
                     <span className="ml-2 text-[11px] text-slate-400">{category.count}</span>
                   </button>
                 ))}

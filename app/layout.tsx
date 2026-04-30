@@ -4,8 +4,25 @@ import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "zoo-cards",
+  metadataBase: new URL("https://tim-zoo.github.io/zoo-cards/"),
+  title: {
+    default: "zoo-cards | 动物园风格 AI 安全知识卡片站",
+    template: "%s",
+  },
   description: "动物园风格的 AI 安全知识卡片站，支持按路径逐步探索。",
+  openGraph: {
+    title: "zoo-cards | 动物园风格 AI 安全知识卡片站",
+    description: "一个基于 GitHub Pages 的响应式 AI 安全知识卡片站，支持按路径逐步探索。",
+    url: "https://tim-zoo.github.io/zoo-cards/",
+    siteName: "zoo-cards",
+    locale: "zh_CN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "zoo-cards | 动物园风格 AI 安全知识卡片站",
+    description: "一个基于 GitHub Pages 的响应式 AI 安全知识卡片站，支持按路径逐步探索。",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

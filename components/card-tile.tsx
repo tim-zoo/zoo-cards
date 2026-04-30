@@ -1,12 +1,13 @@
 import Link from "next/link";
 
+import { formatCategoryLabel } from "@/lib/display";
 import type { Card } from "@/lib/types";
 
 export function CardTile({ card }: { card: Card }) {
   return (
     <article className="card-tile">
       <div className="flex flex-wrap items-center gap-2">
-        <span className="chip">{card.category}</span>
+        <span className="chip">{formatCategoryLabel(card.category)}</span>
         {card.tags.slice(0, 2).map((tag) => (
           <span key={tag} className="tag-chip">
             #{tag}

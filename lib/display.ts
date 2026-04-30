@@ -15,3 +15,13 @@ export function formatDifficultyLabel(difficulty?: PathDifficulty) {
   if (difficulty === "deep") return "深入理解";
   return "自由探索";
 }
+
+export function slugifyText(text: string) {
+  return text
+    .toLowerCase()
+    .replace(/<[^>]+>/g, "")
+    .replace(/[`*_~]/g, "")
+    .replace(/[^\p{L}\p{N}\s-]/gu, "")
+    .trim()
+    .replace(/\s+/g, "-");
+}

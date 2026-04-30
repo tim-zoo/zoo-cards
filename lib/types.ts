@@ -1,6 +1,12 @@
 export type CardStatus = "draft" | "published";
 export type PathDifficulty = "easy" | "medium" | "deep";
 
+export interface ContentHeading {
+  id: string;
+  text: string;
+  level: 2 | 3;
+}
+
 export interface Card {
   slug: string;
   title: string;

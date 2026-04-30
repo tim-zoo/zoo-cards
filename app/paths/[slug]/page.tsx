@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { getPathBySlug, getPathSlugs } from "@/lib/content";
+import { getAllPaths, getPathBySlug, getPathSlugs } from "@/lib/content";
 import { formatCategoryLabel, formatDifficultyLabel } from "@/lib/display";
 
 type RouteProps = {
@@ -31,11 +31,21 @@ export default async function PathDetailPage({ params }: RouteProps) {
   const pathItem = getPathBySlug(slug);
   if (!pathItem) notFound();
 
+  const nextPath = getAllPaths().find((item) => item.slug !== pathItem.slug);
+
   return (
     <div className="space-y-8 lg:space-y-10">
       <section className="surface-strong p-6 sm:p-8 lg:p-10">
-        <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="space-y-4">
+        <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
+          <Link href="/paths" className="transition hover:text-emerald-700">
+            探索路径
+          </Link>
+          <span>/</span>
+          <span className="text-slate-900">{pathItem.title}</span>
+        </div>
+
+        <div className="mt-5 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="space-y-5">
             <p className="eyebrow">learning trail</p>
             <div className="flex flex-wrap items-center gap-3">
               <span className="chip">{pathItem.theme}</span>
@@ -45,6 +55,14 @@ export default async function PathDetailPage({ params }: RouteProps) {
             <h1 className="text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">{pathItem.title}</h1>
             <p className="max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">{pathItem.summary}</p>
             <p className="text-sm text-slate-500">适合：{pathItem.audience}</p>
+            <div className="flex flex-wrap gap-3 pt-1">
+              <a href="#step-1" className="button-primary">
+                从第 1 步开始 →
+              </a>
+              <Link href="/paths" className="button-secondary">
+                返回路径列表
+              </Link>
+            </div>
           </div>
 
           <div className="surface space-y-4 p-5">
@@ -75,6 +93,10 @@ export default async function PathDetailPage({ params }: RouteProps) {
                 {index < pathItem.steps.length - 1 ? <div className="mx-auto h-12 w-px bg-slate-200" /> : null}
               </div>
               <div className="space-y-4">
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="eyebrow">step {index + 1} / {pathItem.steps.length}</span>
+                  <span className="meta-pill">{formatCategoryLabel(step.card.category)}</span>
+                </div>
                 <div className="space-y-2">
                   <p className="text-sm font-medium text-emerald-700">为什么这一步</p>
                   <p className="text-sm leading-6 text-slate-600">{step.whyThisStep}</p>
@@ -84,7 +106,6 @@ export default async function PathDetailPage({ params }: RouteProps) {
                   <p className="text-sm leading-6 text-slate-600">{step.card.summary}</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="chip">{formatCategoryLabel(step.card.category)}</span>
                   {step.card.tags.slice(0, 3).map((tag) => (
                     <span key={tag} className="tag-chip">
                       #{tag}
@@ -95,14 +116,35 @@ export default async function PathDetailPage({ params }: RouteProps) {
                   <Link href={`/cards/${step.card.slug}`} className="button-primary">
                     阅读这张卡片
                   </Link>
-                  {step.nextHint ? <p className="text-sm leading-6 text-slate-500">下一步提示：{step.nextHint}</p> : null}
+                  <a href={`#step-${Math.min(index + 2, pathItem.steps.length)}`} className="button-ghost">
+                    {index < pathItem.steps.length - 1 ? "跳到下一步 ↓" : "回看路径总览 ↑"}
+                  </a>
                 </div>
+                {step.nextHint ? <div className="detail-note">下一步提示：{step.nextHint}</div> : null}
               </div>
             </article>
           ))}
+
+          <section className="surface-strong p-6 sm:p-7">
+            <p className="eyebrow">after the trail</p>
+            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950">走完这条路径以后</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
+              如果你已经把整条路径走完，下一步可以回到卡片库横向扩阅读，或者切到另一条路径，用另一种主题视角重新串起这些知识点。
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Link href="/cards" className="button-primary">
+                去扩更多卡片
+              </Link>
+              {nextPath ? (
+                <Link href={`/paths/${nextPath.slug}`} className="button-secondary">
+                  试试另一条路径
+                </Link>
+              ) : null}
+            </div>
+          </section>
         </section>
 
-        <aside className="space-y-5 lg:sticky lg:top-24">
+        <aside id="path-overview" className="space-y-5 lg:sticky lg:top-24">
           <section className="surface p-5">
             <p className="eyebrow">path overview</p>
             <h2 className="mt-2 text-xl font-semibold tracking-tight text-slate-950">快速总览</h2>
@@ -128,7 +170,7 @@ export default async function PathDetailPage({ params }: RouteProps) {
             <ol className="mt-4 space-y-3 text-sm leading-6 text-slate-600">
               {pathItem.steps.map((step, index) => (
                 <li key={step.card.slug}>
-                  <a href={`#step-${index + 1}`} className="block rounded-2xl border border-slate-200 px-4 py-3 transition hover:border-emerald-200 hover:bg-emerald-50/50">
+                  <a href={`#step-${index + 1}`} className="toc-link">
                     <span className="mr-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">step {index + 1}</span>
                     <span className="font-medium text-slate-900">{step.card.title}</span>
                   </a>

@@ -2,7 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 
-import type { Card, LearningPath, PathDifficulty, ResolvedLearningPath } from "@/lib/types";
+import { slugifyText } from "@/lib/display";
+import type { Card, ContentHeading, LearningPath, PathDifficulty, ResolvedLearningPath } from "@/lib/types";
 
 const ROOT = process.cwd();
 const CARD_DIR = path.join(ROOT, "content", "cards");
@@ -40,6 +41,17 @@ function assertOptionalNumber(value: unknown, field: string, fileName: string) {
   if (value === undefined) return undefined;
   if (typeof value === "number" && Number.isFinite(value)) return value;
   throw new Error(`${fileName}: field \`${field}\` must be a number`);
+}
+
+function stripMarkdownForCount(content: string) {
+  return content
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`[^`]*`/g, " ")
+    .replace(/!\[[^\]]*\]\([^)]+\)/g, " ")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[>#*_~-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 export function getAllCards(): Card[] {
@@ -103,6 +115,33 @@ export function getRelatedCards(card: Card) {
     .filter((item): item is Card => Boolean(item));
 }
 
+export function estimateReadingMinutes(content: string) {
+  const plainText = stripMarkdownForCount(content);
+  const cjkCount = (plainText.match(/[\u4e00-\u9fff]/g) ?? []).length;
+  const latinWordCount = (plainText.replace(/[\u4e00-\u9fff]/g, " ").match(/[A-Za-z0-9]+/g) ?? []).length;
+  return Math.max(1, Math.ceil(cjkCount / 260 + latinWordCount / 180));
+}
+
+export function extractContentHeadings(content: string): ContentHeading[] {
+  return content
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => /^(##|###)\s+/.test(line))
+    .map((line) => {
+      const match = /^(##|###)\s+(.+)$/.exec(line);
+      if (!match) return null;
+      const [, hashes, rawText] = match;
+      const text = rawText.trim();
+
+      return {
+        id: slugifyText(text),
+        text,
+        level: hashes.length as 2 | 3,
+      } satisfies ContentHeading;
+    })
+    .filter((item): item is ContentHeading => Boolean(item));
+}
+
 function parseLearningPath(fileName: string): LearningPath {
   const filePath = path.join(PATH_DIR, fileName);
   const raw = JSON.parse(readFile(filePath)) as LearningPath;
@@ -158,4 +197,8 @@ export function getPathBySlug(slug: string): ResolvedLearningPath | undefined {
       };
     }),
   };
+}
+
+export function getPathsForCardSlug(slug: string) {
+  return getAllPaths().filter((pathItem) => pathItem.steps.some((step) => step.cardSlug === slug));
 }

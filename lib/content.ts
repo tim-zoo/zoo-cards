@@ -73,6 +73,7 @@ export function getAllCards(): Card[] {
       relatedCardSlugs: assertStringArray(data.relatedCardSlugs ?? [], "relatedCardSlugs", fileName),
       order: typeof data.order === "number" ? data.order : 999,
       content: content.trim(),
+      featured: Boolean(data.featured),
     };
 
     return card;

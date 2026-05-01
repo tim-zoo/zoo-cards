@@ -1,4 +1,5 @@
-import { PathTile } from "@/components/path-tile";
+import { PathProgressTile } from "@/components/path-progress-tile";
+import { ProgressOverview } from "@/components/progress-overview";
 import { getAllPaths } from "@/lib/content";
 
 export const metadata = {
@@ -39,6 +40,8 @@ export default function PathsPage() {
         </div>
       </section>
 
+      <ProgressOverview totalCards={paths.reduce((sum, pathItem) => sum + pathItem.steps.length, 0)} compact />
+
       <section className="grid gap-4 md:grid-cols-3">
         <article className="surface p-5">
           <p className="eyebrow">choose</p>
@@ -65,7 +68,7 @@ export default function PathsPage() {
         </div>
         <div className="grid gap-5 md:grid-cols-2">
           {paths.map((pathItem) => (
-            <PathTile key={pathItem.slug} pathItem={pathItem} />
+            <PathProgressTile key={pathItem.slug} pathItem={pathItem} />
           ))}
         </div>
       </section>

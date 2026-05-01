@@ -17,6 +17,7 @@ export interface Card {
   relatedCardSlugs: string[];
   order: number;
   content: string;
+  featured?: boolean;
 }
 
 export interface PathStep {

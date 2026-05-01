@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { ProgressOverview } from "@/components/progress-overview";
+import { getAllCards } from "@/lib/content";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -26,6 +28,8 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const totalCards = getAllCards().length;
+
   return (
     <html lang="zh-CN">
       <body>
@@ -40,7 +44,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <p className="mt-1 text-sm text-slate-600">动物园风格 AI 安全知识卡片站</p>
               </div>
             </div>
-            <nav className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap items-center gap-3">
+              <ProgressOverview totalCards={totalCards} compact />
+              <nav className="flex flex-wrap gap-2">
               <Link href="/cards" className="nav-link">
                 卡片
               </Link>
@@ -53,7 +59,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <a href="https://github.com/tim-zoo" className="nav-link" target="_blank" rel="noreferrer">
                 tim-zoo ↗
               </a>
-            </nav>
+              </nav>
+            </div>
           </header>
 
           <main className="flex-1">{children}</main>

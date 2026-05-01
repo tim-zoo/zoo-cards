@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { LearningProgressShell } from "@/components/learning-progress-shell";
 import { MdxContent } from "@/components/mdx-content";
 import {
   estimateReadingMinutes,
@@ -111,6 +112,8 @@ export default async function CardDetailPage({ params }: RouteProps) {
           </div>
 
           <MdxContent source={card.content} />
+
+          <LearningProgressShell card={card} />
 
           <div className="mt-10 rounded-[1.75rem] bg-slate-950 p-5 text-white sm:p-6">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-300">after this card</p>

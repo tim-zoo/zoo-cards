@@ -8,6 +8,7 @@
 - `architecture/` —— 系统结构、分层方式、技术栈决策和重要技术说明
 - `constraints/` —— 编码规则、项目约束、边界和不变量
 - `domains/` —— 业务 / 内容领域说明
+  - `domains/gamified-learning.md` —— 游戏化学习功能目标、边界、奖励机制和待拍板问题
 
 ## 当前建议阅读顺序
 
@@ -17,7 +18,8 @@
 4. `architecture/layers.md`
 5. `constraints/project-constraints.md`
 6. `domains/content-model.md`
-7. `plans/project-plan.md`
+7. `domains/gamified-learning.md`
+8. `plans/project-plan.md`
 
 ## 使用建议
 

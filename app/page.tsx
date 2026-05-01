@@ -1,15 +1,20 @@
 import Link from "next/link";
 
 import { CardTile } from "@/components/card-tile";
-import { PathTile } from "@/components/path-tile";
+import { ProgressOverview } from "@/components/progress-overview";
+import { PathProgressTile } from "@/components/path-progress-tile";
 import { getAllCards, getAllPaths, getCategories, getTags } from "@/lib/content";
 import { formatCategoryLabel } from "@/lib/display";
+import { getFeaturedTodayPicks } from "@/lib/gamification";
 
 export default function HomePage() {
   const cards = getAllCards();
   const paths = getAllPaths();
   const categories = getCategories();
   const tags = getTags().slice(0, 6);
+  const todayPicks = getFeaturedTodayPicks(cards)
+    .map((pick) => ({ ...pick, card: cards.find((card) => card.slug === pick.cardSlug) }))
+    .filter((item): item is { cardSlug: string; reason: string; card: (typeof cards)[number] } => Boolean(item.card));
 
   return (
     <div className="space-y-12 sm:space-y-14">
@@ -72,14 +77,17 @@ export default function HomePage() {
                 <h2 className="mt-2 text-xl font-semibold tracking-tight text-slate-950">今日导览建议</h2>
               </div>
               <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <span className="feature-dot mt-2" />
-                  <p className="text-sm leading-6 text-slate-600">先理解输入为什么会劫持模型行为，再看工具调用如何放大风险。</p>
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="feature-dot mt-2" />
-                  <p className="text-sm leading-6 text-slate-600">最后把视角切回防御侧，理解 Guardrails 为什么必须是多层护栏。</p>
-                </div>
+                {todayPicks.slice(0, 3).map((item) => (
+                  <Link key={item.card.slug} href={`/cards/${item.card.slug}`} className="today-pick-card">
+                    <div className="flex items-start gap-3">
+                      <span className="feature-dot mt-2" />
+                      <div>
+                        <p className="text-sm font-medium text-slate-900">{item.card.title}</p>
+                        <p className="mt-1 text-sm leading-6 text-slate-600">{item.reason}</p>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
               </div>
               {paths[0] ? (
                 <Link href={`/paths/${paths[0].slug}`} className="button-ghost">
@@ -90,6 +98,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <ProgressOverview totalCards={cards.length} />
 
       <section className="grid gap-4 md:grid-cols-3">
         <article className="surface p-5">
@@ -140,7 +150,7 @@ export default function HomePage() {
         </div>
         <div className="grid gap-5 md:grid-cols-2">
           {paths.map((pathItem) => (
-            <PathTile key={pathItem.slug} pathItem={pathItem} />
+            <PathProgressTile key={pathItem.slug} pathItem={pathItem} />
           ))}
         </div>
       </section>

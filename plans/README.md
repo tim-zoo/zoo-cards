@@ -40,6 +40,7 @@
 - `001-init-code-frame.md`
 - `002-build-api-skeleton.md`
 - `003-add-basic-ui.md`
+- `004-add-gamified-learning-mvp.md`
 
 文件名用英文，文件内容用中文。
 

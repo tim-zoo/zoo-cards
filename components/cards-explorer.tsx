@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 
-import { CardTile } from "@/components/card-tile";
+import { ProgressCardTile } from "@/components/progress-card-tile";
 import { formatCategoryLabel } from "@/lib/display";
 import type { Card } from "@/lib/types";
 
@@ -184,7 +184,7 @@ export function CardsExplorer({ cards }: CardsExplorerProps) {
         {filteredCards.length > 0 ? (
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {filteredCards.map((card) => (
-              <CardTile key={card.slug} card={card} />
+              <ProgressCardTile key={card.slug} card={card} />
             ))}
           </div>
         ) : (

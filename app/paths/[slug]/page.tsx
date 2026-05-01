@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { PathDetailProgress } from "@/components/path-detail-progress";
 import { getAllPaths, getPathBySlug, getPathSlugs } from "@/lib/content";
 import { formatCategoryLabel, formatDifficultyLabel } from "@/lib/display";
+import { getCardGameConfig } from "@/lib/gamification";
 
 type RouteProps = {
   params: Promise<{ slug: string }>;
@@ -120,6 +122,11 @@ export default async function PathDetailPage({ params }: RouteProps) {
                     {index < pathItem.steps.length - 1 ? "跳到下一步 ↓" : "回看路径总览 ↑"}
                   </a>
                 </div>
+                {getCardGameConfig(step.card.slug) ? (
+                  <div className="rounded-[1.25rem] border border-emerald-100 bg-emerald-50/60 px-4 py-3 text-sm leading-6 text-emerald-950">
+                    这一步读完后可以立刻答 1 道小题，拿到 XP 和本日学习进度。
+                  </div>
+                ) : null}
                 {step.nextHint ? <div className="detail-note">下一步提示：{step.nextHint}</div> : null}
               </div>
             </article>
@@ -145,39 +152,7 @@ export default async function PathDetailPage({ params }: RouteProps) {
         </section>
 
         <aside id="path-overview" className="space-y-5 lg:sticky lg:top-24">
-          <section className="surface p-5">
-            <p className="eyebrow">path overview</p>
-            <h2 className="mt-2 text-xl font-semibold tracking-tight text-slate-950">快速总览</h2>
-            <div className="mt-4 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-              <div className="rounded-2xl bg-amber-50 p-4">
-                <p className="text-sm text-amber-900">步骤数</p>
-                <p className="mt-2 text-2xl font-semibold text-amber-950">{pathItem.steps.length}</p>
-              </div>
-              <div className="rounded-2xl bg-emerald-50 p-4">
-                <p className="text-sm text-emerald-900">难度</p>
-                <p className="mt-2 text-lg font-semibold text-emerald-950">{formatDifficultyLabel(pathItem.difficulty)}</p>
-              </div>
-              <div className="rounded-2xl bg-sky-50 p-4">
-                <p className="text-sm text-sky-900">时长</p>
-                <p className="mt-2 text-2xl font-semibold text-sky-950">{pathItem.durationMinutes ?? "-"}</p>
-              </div>
-            </div>
-          </section>
-
-          <section className="surface p-5">
-            <p className="eyebrow">jump in</p>
-            <h2 className="mt-2 text-xl font-semibold tracking-tight text-slate-950">这条路径怎么走</h2>
-            <ol className="mt-4 space-y-3 text-sm leading-6 text-slate-600">
-              {pathItem.steps.map((step, index) => (
-                <li key={step.card.slug}>
-                  <a href={`#step-${index + 1}`} className="toc-link">
-                    <span className="mr-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">step {index + 1}</span>
-                    <span className="font-medium text-slate-900">{step.card.title}</span>
-                  </a>
-                </li>
-              ))}
-            </ol>
-          </section>
+          <PathDetailProgress pathItem={pathItem} />
         </aside>
       </div>
     </div>

@@ -58,7 +58,7 @@ export default async function CardDetailPage({ params }: RouteProps) {
           <span className="text-slate-900">{card.title}</span>
         </div>
 
-        <div className="mt-5 grid gap-6 lg:grid-cols-[1.35fr_0.65fr] lg:items-start">
+        <div className="mt-5 grid gap-4 lg:grid-cols-[1.35fr_0.65fr] lg:items-start lg:gap-6">
           <div className="space-y-5">
             <div className="flex flex-wrap gap-3">
               <span className="chip">{formatCategoryLabel(card.category)}</span>
@@ -72,41 +72,38 @@ export default async function CardDetailPage({ params }: RouteProps) {
               <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">{card.title}</h1>
               <p className="max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">{card.summary}</p>
             </div>
-            <div className="flex flex-wrap gap-3">
-              <Link href="/cards" className="button-secondary">
-                返回卡片库
-              </Link>
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               {featuredPaths[0] ? (
-                <Link href={`/paths/${featuredPaths[0].slug}`} className="button-primary">
+                <Link href={`/paths/${featuredPaths[0].slug}`} className="button-primary w-full sm:w-auto">
                   顺着路径继续学 →
                 </Link>
               ) : null}
+              <Link href="/cards" className="button-secondary w-full sm:w-auto">
+                返回卡片库
+              </Link>
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
-            <div className="hero-metric">
-              <p className="text-sm font-medium text-amber-900">阅读时长</p>
-              <p className="mt-2 text-3xl font-semibold text-amber-950">{readingMinutes}</p>
-              <p className="mt-1 text-xs uppercase tracking-[0.18em] text-amber-700">minutes</p>
+          <div className="detail-summary-bar">
+            <div className="detail-summary-item">
+              <span className="detail-summary-label">阅读</span>
+              <span className="detail-summary-value">约 {readingMinutes} 分钟</span>
             </div>
-            <div className="hero-metric">
-              <p className="text-sm font-medium text-emerald-900">页内导览</p>
-              <p className="mt-2 text-3xl font-semibold text-emerald-950">{headings.length}</p>
-              <p className="mt-1 text-xs uppercase tracking-[0.18em] text-emerald-700">sections</p>
+            <div className="detail-summary-item">
+              <span className="detail-summary-label">导览</span>
+              <span className="detail-summary-value">{headings.length} 个章节</span>
             </div>
-            <div className="hero-metric">
-              <p className="text-sm font-medium text-sky-900">关联路径</p>
-              <p className="mt-2 text-3xl font-semibold text-sky-950">{featuredPaths.length}</p>
-              <p className="mt-1 text-xs uppercase tracking-[0.18em] text-sky-700">guided</p>
+            <div className="detail-summary-item">
+              <span className="detail-summary-label">路径</span>
+              <span className="detail-summary-value">{featuredPaths.length} 条相关路径</span>
             </div>
           </div>
         </div>
       </section>
 
-      <div className="grid gap-8 lg:grid-cols-[1.55fr_0.85fr] lg:items-start">
-        <article className="surface p-6 sm:p-8">
-          <div className="mb-8 flex flex-wrap items-center gap-3 rounded-[1.5rem] border border-amber-100 bg-amber-50/70 px-4 py-3 text-sm text-amber-950">
+      <div className="grid gap-6 lg:grid-cols-[1.55fr_0.85fr] lg:items-start lg:gap-8">
+        <article className="surface p-5 sm:p-8">
+          <div className="mb-6 flex flex-col gap-2 rounded-[1.5rem] border border-amber-100 bg-amber-50/70 px-4 py-3 text-sm text-amber-950 sm:mb-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
             <span className="font-medium">阅读提示</span>
             <span className="text-amber-800/80">先看“这是什么”，再看“为什么重要”，最后记住可直接落到产品设计里的判断。</span>
           </div>
@@ -115,20 +112,20 @@ export default async function CardDetailPage({ params }: RouteProps) {
 
           <LearningProgressShell card={card} />
 
-          <div className="mt-10 rounded-[1.75rem] bg-slate-950 p-5 text-white sm:p-6">
+          <div className="mt-8 rounded-[1.5rem] bg-slate-950 p-4 text-white sm:mt-10 sm:rounded-[1.75rem] sm:p-6">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-300">after this card</p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight">读完这张卡以后怎么继续</h2>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-200">
+            <h2 className="mt-3 text-xl font-semibold tracking-tight sm:text-2xl">读完这张卡以后怎么继续</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-200 sm:leading-7">
               如果你想继续顺着一个问题往下走，优先去看关联卡片；如果你更想按节奏学，就直接切到路径页，让“下一步看什么”变得明确一点。
             </p>
-            <div className="mt-5 flex flex-wrap gap-3">
+            <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               {relatedCards[0] ? (
-                <Link href={`/cards/${relatedCards[0].slug}`} className="button-primary bg-white text-slate-950 hover:bg-slate-100">
+                <Link href={`/cards/${relatedCards[0].slug}`} className="button-primary w-full bg-white text-slate-950 hover:bg-slate-100 sm:w-auto">
                   继续看关联卡片 →
                 </Link>
               ) : null}
               {featuredPaths[0] ? (
-                <Link href={`/paths/${featuredPaths[0].slug}`} className="button-secondary border-slate-600 bg-slate-900 text-white hover:border-white hover:text-white">
+                <Link href={`/paths/${featuredPaths[0].slug}`} className="button-secondary w-full border-slate-600 bg-slate-900 text-white hover:border-white hover:text-white sm:w-auto">
                   改走探索路径
                 </Link>
               ) : null}
@@ -136,7 +133,7 @@ export default async function CardDetailPage({ params }: RouteProps) {
           </div>
         </article>
 
-        <aside className="space-y-5 lg:sticky lg:top-24">
+        <aside className="hidden space-y-5 lg:sticky lg:top-24 lg:block">
           {headings.length ? (
             <section className="surface p-5">
               <p className="eyebrow">on this page</p>

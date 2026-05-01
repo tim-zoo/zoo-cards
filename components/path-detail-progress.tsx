@@ -23,23 +23,23 @@ export function PathDetailProgress({ pathItem }: PathDetailProgressProps) {
 
   return (
     <>
-      <section className="surface space-y-4 p-5">
+      <section className="surface space-y-4 p-4 sm:p-5">
         <div>
           <p className="eyebrow">path progress</p>
           <h2 className="mt-2 text-xl font-semibold tracking-tight text-slate-950">这条路径现在走到哪了</h2>
         </div>
-        <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-          <div className="rounded-2xl bg-amber-50 p-4">
-            <p className="text-sm text-amber-900">已完成步骤</p>
-            <p className="mt-2 text-2xl font-semibold text-amber-950">{completion.completedSteps}/{completion.totalSteps}</p>
+        <div className="grid grid-cols-3 gap-2 sm:gap-3 lg:grid-cols-1">
+          <div className="rounded-2xl bg-amber-50 p-3 sm:p-4">
+            <p className="text-xs text-amber-900 sm:text-sm">已完成步骤</p>
+            <p className="mt-2 text-lg font-semibold text-amber-950 sm:text-2xl">{completion.completedSteps}/{completion.totalSteps}</p>
           </div>
-          <div className="rounded-2xl bg-emerald-50 p-4">
-            <p className="text-sm text-emerald-900">完成度</p>
-            <p className="mt-2 text-2xl font-semibold text-emerald-950">{completion.percent}%</p>
+          <div className="rounded-2xl bg-emerald-50 p-3 sm:p-4">
+            <p className="text-xs text-emerald-900 sm:text-sm">完成度</p>
+            <p className="mt-2 text-lg font-semibold text-emerald-950 sm:text-2xl">{completion.percent}%</p>
           </div>
-          <div className="rounded-2xl bg-sky-50 p-4">
-            <p className="text-sm text-sky-900">当前状态</p>
-            <p className="mt-2 text-lg font-semibold text-sky-950">{completion.done ? "已走完" : "继续中"}</p>
+          <div className="rounded-2xl bg-sky-50 p-3 sm:p-4">
+            <p className="text-xs text-sky-900 sm:text-sm">当前状态</p>
+            <p className="mt-2 text-base font-semibold text-sky-950 sm:text-lg">{completion.done ? "已走完" : "继续中"}</p>
           </div>
         </div>
         <div className="h-3 overflow-hidden rounded-full bg-slate-100">
@@ -54,7 +54,7 @@ export function PathDetailProgress({ pathItem }: PathDetailProgressProps) {
         </p>
       </section>
 
-      <section className="surface p-5">
+      <section className="surface p-4 sm:p-5">
         <p className="eyebrow">step status</p>
         <h2 className="mt-2 text-xl font-semibold tracking-tight text-slate-950">每一步完成情况</h2>
         <ol className="mt-4 space-y-3 text-sm leading-6 text-slate-600">

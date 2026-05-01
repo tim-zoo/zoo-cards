@@ -33,10 +33,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="zh-CN">
       <body>
-        <div className="mx-auto flex min-h-screen max-w-6xl flex-col px-4 py-6 sm:px-6 lg:px-8">
-          <header className="surface sticky top-4 z-10 mb-8 flex flex-col gap-4 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-100 text-xl shadow-sm">🦊</div>
+        <div className="mx-auto flex min-h-screen max-w-6xl flex-col px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
+          <header className="surface mb-6 flex flex-col gap-3 px-4 py-4 sm:sticky sm:top-4 sm:z-10 sm:mb-8 sm:px-5 sm:py-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-100 text-lg shadow-sm sm:h-12 sm:w-12 sm:text-xl">🦊</div>
               <div>
                 <Link href="/" className="text-lg font-semibold tracking-tight text-slate-950">
                   zoo-cards
@@ -44,8 +44,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <p className="mt-1 text-sm text-slate-600">动物园风格 AI 安全知识卡片站</p>
               </div>
             </div>
-            <div className="flex flex-wrap items-center gap-3">
-              <ProgressOverview totalCards={totalCards} compact />
+            <div className="flex flex-col gap-3 sm:flex-wrap sm:items-center">
+              <div className="hidden sm:block">
+                <ProgressOverview totalCards={totalCards} compact />
+              </div>
               <nav className="flex flex-wrap gap-2">
               <Link href="/cards" className="nav-link">
                 卡片

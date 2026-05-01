@@ -47,18 +47,18 @@ export function ProgressOverview({ totalCards, compact = false }: ProgressOvervi
             这是一套轻量进度面板，帮助用户看到自己不是“只看了一眼”，而是在一点点积累。
           </p>
         </div>
-        <div className="grid gap-3 sm:grid-cols-3">
-          <div className="rounded-[1.25rem] bg-amber-50 px-4 py-3">
-            <p className="text-xs uppercase tracking-[0.18em] text-amber-700">xp</p>
-            <p className="mt-2 text-2xl font-semibold text-amber-950">{progress.xp}</p>
+        <div className="grid grid-cols-3 gap-2 sm:gap-3">
+          <div className="rounded-[1.25rem] bg-amber-50 px-3 py-3 sm:px-4">
+            <p className="text-[10px] uppercase tracking-[0.18em] text-amber-700 sm:text-xs">xp</p>
+            <p className="mt-2 text-xl font-semibold text-amber-950 sm:text-2xl">{progress.xp}</p>
           </div>
-          <div className="rounded-[1.25rem] bg-emerald-50 px-4 py-3">
-            <p className="text-xs uppercase tracking-[0.18em] text-emerald-700">streak</p>
-            <p className="mt-2 text-2xl font-semibold text-emerald-950">{progress.streakDays}</p>
+          <div className="rounded-[1.25rem] bg-emerald-50 px-3 py-3 sm:px-4">
+            <p className="text-[10px] uppercase tracking-[0.18em] text-emerald-700 sm:text-xs">streak</p>
+            <p className="mt-2 text-xl font-semibold text-emerald-950 sm:text-2xl">{progress.streakDays}</p>
           </div>
-          <div className="rounded-[1.25rem] bg-sky-50 px-4 py-3">
-            <p className="text-xs uppercase tracking-[0.18em] text-sky-700">today</p>
-            <p className="mt-2 text-2xl font-semibold text-sky-950">{todayCount}</p>
+          <div className="rounded-[1.25rem] bg-sky-50 px-3 py-3 sm:px-4">
+            <p className="text-[10px] uppercase tracking-[0.18em] text-sky-700 sm:text-xs">today</p>
+            <p className="mt-2 text-xl font-semibold text-sky-950 sm:text-2xl">{todayCount}</p>
           </div>
         </div>
       </div>

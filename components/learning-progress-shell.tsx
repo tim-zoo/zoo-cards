@@ -49,6 +49,7 @@ export function LearningProgressShell({ card }: LearningProgressShellProps) {
   const [result, setResult] = useState<QuizResultSummary | null>(null);
   const [feedback, setFeedback] = useState<string>("");
   const [showQuiz, setShowQuiz] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   useEffect(() => {
     const nextProgress = loadLearningProgress();
@@ -83,6 +84,7 @@ export function LearningProgressShell({ card }: LearningProgressShellProps) {
         streakDays: nextProgress.streakDays,
         unlockedBadges: [],
       });
+      setCollapsed(false);
       return;
     }
 
@@ -111,37 +113,118 @@ export function LearningProgressShell({ card }: LearningProgressShellProps) {
       streakDays,
       unlockedBadges: newBadges,
     });
+    setCollapsed(false);
   }
 
   const todayCount = progress.dailyCompletions[dateKey()] ?? 0;
 
   return (
-    <section className="surface mt-10 space-y-5 p-5 sm:p-6">
-      <div className="flex flex-wrap items-start justify-between gap-4">
+    <section className="surface mt-8 space-y-4 p-4 sm:mt-10 sm:space-y-5 sm:p-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
         <div>
           <p className="eyebrow">learn & reward</p>
-          <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950">学完来一题</h2>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
+          <h2 className="mt-2 text-xl font-semibold tracking-tight text-slate-950 sm:text-2xl">学完来一题</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 sm:mt-3 sm:leading-7">
             先用 10 到 30 秒确认自己抓住了重点。答对会拿到 XP，答错也可以根据提示再试一次。
           </p>
         </div>
-        <div className="grid gap-3 sm:grid-cols-3">
-          <div className="rounded-[1.25rem] bg-amber-50 px-4 py-3">
-            <p className="text-xs uppercase tracking-[0.18em] text-amber-700">xp</p>
-            <p className="mt-2 text-2xl font-semibold text-amber-950">{progress.xp}</p>
+        <div className="grid grid-cols-3 gap-2 sm:gap-3">
+          <div className="rounded-[1.25rem] bg-amber-50 px-3 py-3 sm:px-4">
+            <p className="text-[10px] uppercase tracking-[0.18em] text-amber-700 sm:text-xs">xp</p>
+            <p className="mt-2 text-xl font-semibold text-amber-950 sm:text-2xl">{progress.xp}</p>
           </div>
-          <div className="rounded-[1.25rem] bg-emerald-50 px-4 py-3">
-            <p className="text-xs uppercase tracking-[0.18em] text-emerald-700">streak</p>
-            <p className="mt-2 text-2xl font-semibold text-emerald-950">{progress.streakDays}</p>
+          <div className="rounded-[1.25rem] bg-emerald-50 px-3 py-3 sm:px-4">
+            <p className="text-[10px] uppercase tracking-[0.18em] text-emerald-700 sm:text-xs">streak</p>
+            <p className="mt-2 text-xl font-semibold text-emerald-950 sm:text-2xl">{progress.streakDays}</p>
           </div>
-          <div className="rounded-[1.25rem] bg-sky-50 px-4 py-3">
-            <p className="text-xs uppercase tracking-[0.18em] text-sky-700">today</p>
-            <p className="mt-2 text-2xl font-semibold text-sky-950">{todayCount}</p>
+          <div className="rounded-[1.25rem] bg-sky-50 px-3 py-3 sm:px-4">
+            <p className="text-[10px] uppercase tracking-[0.18em] text-sky-700 sm:text-xs">today</p>
+            <p className="mt-2 text-xl font-semibold text-sky-950 sm:text-2xl">{todayCount}</p>
           </div>
         </div>
       </div>
 
-      <div className="learning-progress-panel">
+      <div className="rounded-[1.5rem] border border-slate-200 bg-slate-50/70 px-4 py-3 sm:hidden">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <p className="text-sm font-medium text-slate-900">轻量小测</p>
+            <p className="mt-1 text-sm text-slate-600">读完后答 1 题，拿 XP 和今天进度。</p>
+          </div>
+          <button type="button" onClick={() => setCollapsed((value) => !value)} className="button-secondary px-4 py-2 text-xs">
+            {collapsed ? "展开" : "收起"}
+          </button>
+        </div>
+      </div>
+
+      {!collapsed ? (
+        <div className="learning-progress-panel sm:hidden">
+          <div className="grid gap-4">
+            <div className="space-y-4">
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="chip">+{activeConfig.reward.readXp + activeConfig.reward.correctXp} XP</span>
+                <span className="meta-pill">支持 1 次重试</span>
+                {alreadySolved ? <span className="meta-pill">已完成</span> : null}
+              </div>
+
+              {!showQuiz ? (
+                <button type="button" onClick={() => setShowQuiz(true)} className="button-primary w-full">
+                  {alreadySolved ? "回看这道题" : "开始答题"}
+                </button>
+              ) : (
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-sm font-medium text-slate-500">问题</p>
+                    <p className="mt-2 text-base font-semibold text-slate-950 sm:text-lg">{activeConfig.quiz.question}</p>
+                  </div>
+                  <div className="space-y-3">
+                    {activeConfig.quiz.options.map((option) => {
+                      const active = selectedOptionId === option.id;
+                      return (
+                        <button
+                          key={option.id}
+                          type="button"
+                          onClick={() => setSelectedOptionId(option.id)}
+                          className={`quiz-option ${active ? "quiz-option-active" : ""}`}
+                        >
+                          <span className="quiz-option-label">{option.label}</span>
+                          <span>{option.text}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                    <button type="button" onClick={handleSubmit} disabled={!selectedOptionId} className="button-primary w-full sm:w-auto disabled:opacity-50">
+                      提交答案
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedOptionId("");
+                        setFeedback("");
+                        setResult(null);
+                      }}
+                      className="button-secondary w-full sm:w-auto"
+                    >
+                      重选
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="space-y-4 rounded-[1.25rem] border border-slate-200 bg-white/80 p-4">
+              <div>
+                <p className="text-sm font-medium text-slate-500">即时反馈</p>
+                <div className="mt-3 rounded-[1.25rem] bg-slate-50 px-4 py-4 text-sm leading-6 text-slate-600">
+                  {feedback || "答完之后，这里会立刻告诉你为什么对，或者提示你漏掉了哪个关键点。"}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      <div className="hidden sm:block learning-progress-panel">
         <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
           <div className="space-y-4">
             <div className="flex flex-wrap items-center gap-3">
@@ -158,7 +241,7 @@ export function LearningProgressShell({ card }: LearningProgressShellProps) {
               <div className="space-y-4">
                 <div>
                   <p className="text-sm font-medium text-slate-500">问题</p>
-                  <p className="mt-2 text-lg font-semibold text-slate-950">{activeConfig.quiz.question}</p>
+                  <p className="mt-2 text-base font-semibold text-slate-950 sm:text-lg">{activeConfig.quiz.question}</p>
                 </div>
                 <div className="space-y-3">
                   {activeConfig.quiz.options.map((option) => {
@@ -176,8 +259,8 @@ export function LearningProgressShell({ card }: LearningProgressShellProps) {
                     );
                   })}
                 </div>
-                <div className="flex flex-wrap gap-3">
-                  <button type="button" onClick={handleSubmit} disabled={!selectedOptionId} className="button-primary disabled:opacity-50">
+                <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                  <button type="button" onClick={handleSubmit} disabled={!selectedOptionId} className="button-primary w-full sm:w-auto disabled:opacity-50">
                     提交答案
                   </button>
                   <button
@@ -187,7 +270,7 @@ export function LearningProgressShell({ card }: LearningProgressShellProps) {
                       setFeedback("");
                       setResult(null);
                     }}
-                    className="button-secondary"
+                    className="button-secondary w-full sm:w-auto"
                   >
                     重选
                   </button>
